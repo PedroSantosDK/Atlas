@@ -24,7 +24,8 @@ mgt = MyGameText()
 
 # Window Variables
 height, width = 600, 600
-isRunning = True
+isRunning = False
+inicial = True
 
 # Game Variables
 fps = 60
@@ -41,12 +42,16 @@ vel = 10
 baseX = 100
 baseY = 525
 
+cursorX = 100
+cursorY = 100
+
 icon = pygame.image.load(os.path.join(imagens_directory, 'RainbowBall.png'))
 
 window = pygame.display.set_mode((height, width))
-pygame.display.set_caption("Ball Drop")
+pygame.display.set_caption("Atlas")
 pygame.display.set_icon(icon)
 
+# imagens
 sky = pygame.image.load(os.path.join(imagens_directory, 'Sky_Background.png'))
 sky = pygame.transform.scale(sky, (320*3.2, 256*3))
 
@@ -56,12 +61,71 @@ ball = pygame.transform.scale(ball, (1024//20, 977//20))
 base = pygame.image.load(os.path.join(imagens_directory, 'cloud.png')).convert_alpha()
 base = pygame.transform.scale(base, (17*6, 10*3.5))
 
+sun = pygame.image.load(os.path.join(imagens_directory, 'TheSun.png')).convert_alpha()
+sun = pygame.transform.scale(sun, (2388//8, 1668//8))
+
+logo = pygame.image.load(os.path.join(imagens_directory, 'Atlas_logo.png')).convert_alpha()
+logo = pygame.transform.scale(logo, (236*2, 96*2))
+logo_rect = logo.get_rect(center=(height//2, 150))
+
+play_button = pygame.image.load(os.path.join(imagens_directory, 'Play_button.png')).convert_alpha()
+play_button = pygame.transform.scale(play_button, (256//1.2, 112//1.2))
+play_button_rect = play_button.get_rect(center=(height//2, 375))
+
+exit_button = pygame.image.load(os.path.join(imagens_directory, 'Exit_button.png')).convert_alpha()
+exit_button = pygame.transform.scale(exit_button, (256//1.2, 112//1.2))
+exit_button_rect = exit_button.get_rect(center=(height//2, 500))
+
 clock = pygame.time.Clock()
 
-pygame.event.set_grab(True)
-pygame.mouse.set_visible(False)
+hover = False
+
+while inicial:
+    pygame.event.set_grab(True)
+    pygame.mouse.set_visible(False)
+    XeY = pygame.mouse.get_pos()
+    window.fill((255,255,255))
+    os.system('cls')
+
+    if hover == True:
+        ball = pygame.transform.rotate(ball, 90)
+
+    for event in pygame.event.get():
+            if event.type == QUIT:
+                isRunning = False
+                pygame.quit()
+                sys.exit()
+
+            if event.type == MOUSEBUTTONDOWN:
+                if play_button_rect.collidepoint(XeY[0], XeY[1]):
+                    inicial = False
+                    isRunning = True
+                
+                if exit_button_rect.collidepoint(XeY[0], XeY[1]):
+                    inicial = False
+                    pygame.quit()
+                    sys.exit()
+
+            cursorX = XeY[0]
+            cursorY = XeY[1]
+
+            if play_button_rect.collidepoint(XeY[0], XeY[1]):
+                hover = True
+            elif exit_button_rect.collidepoint(XeY[0], XeY[1]):
+                hover = True
+            else: 
+                hover = False
+
+    window.blit(sky, (-100,0))
+    window.blit(logo, logo_rect)
+    window.blit(play_button, play_button_rect)
+    window.blit(exit_button, exit_button_rect)
+    window.blit(ball, (cursorX, cursorY))
+    pygame.display.flip()
 
 while isRunning:
+    pygame.event.set_grab(True)
+    pygame.mouse.set_visible(False)
     clock.tick(fps)
     window.fill((255,255,255))
     os.system('cls')
@@ -99,12 +163,13 @@ while isRunning:
                 isRunning = False
                 pygame.quit()
                 sys.exit()
-    
+
         if event.type == MOUSEMOTION:
             varX, varY = pygame.mouse.get_pos()
             baseX = varX
 
     window.blit(sky, (-100,0))
+    window.blit(sun, (height-175,-65))
     window.blit(text_points, (0,0))
     window.blit(text_speed, (0,25))
     window.blit(text_missed, (0,50))
