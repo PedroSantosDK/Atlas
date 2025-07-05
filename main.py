@@ -3,6 +3,9 @@ from pygame.locals import *
 
 pygame.init()
 
+main_directory = os.path.dirname(__file__)
+imagens_directory = os.path.join(main_directory, "imagens")
+
 class MyGameText:
     def _init_(self):
         print("Inicializando biblioteca...")
@@ -38,19 +41,19 @@ vel = 10
 baseX = 100
 baseY = 525
 
-icon = pygame.image.load(r"imagens\RainbowBall.png")
+icon = pygame.image.load(os.path.join(imagens_directory, 'RainbowBall.png'))
 
 window = pygame.display.set_mode((height, width))
 pygame.display.set_caption("Ball Drop")
 pygame.display.set_icon(icon)
 
-sky = pygame.image.load(r"imagens\Sky_Background.png")
+sky = pygame.image.load(os.path.join(imagens_directory, 'Sky_Background.png'))
 sky = pygame.transform.scale(sky, (320*3.2, 256*3))
 
-ball = pygame.image.load(r"imagens\Star.png").convert_alpha()
+ball = pygame.image.load(os.path.join(imagens_directory, 'Star.png')).convert_alpha()
 ball = pygame.transform.scale(ball, (1024//20, 977//20))
 
-base = pygame.image.load(r"E:\Pedro\Jogos_Python\CloudGame\imagens\sprite_0.png").convert_alpha()
+base = pygame.image.load(os.path.join(imagens_directory, 'cloud.png')).convert_alpha()
 base = pygame.transform.scale(base, (17*6, 10*3.5))
 
 clock = pygame.time.Clock()
