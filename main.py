@@ -29,6 +29,8 @@ inicial = True
 
 # Game Variables
 fps = 60
+fps2 = 20
+
 points = 0
 miss = 0
 
@@ -36,6 +38,7 @@ miss = 0
 x = random.randint(25, 576)
 y = 50
 
+max_speed = 30
 vel = 10
 
 # Base Variables
@@ -81,6 +84,7 @@ clock = pygame.time.Clock()
 hover = False
 
 while inicial:
+    clock.tick(fps2)
     pygame.event.set_grab(True)
     pygame.mouse.set_visible(False)
     XeY = pygame.mouse.get_pos()
@@ -95,6 +99,12 @@ while inicial:
                 isRunning = False
                 pygame.quit()
                 sys.exit()
+                
+            if event.type == KEYDOWN:
+                if event.key == K_ESCAPE:
+                    isRunning = False
+                    pygame.quit()
+                    sys.exit()
 
             if event.type == MOUSEBUTTONDOWN:
                 if play_button_rect.collidepoint(XeY[0], XeY[1]):
@@ -147,7 +157,7 @@ while isRunning:
         x = random.randint(25, 576)
         y = 100
         points += 1
-        if vel >= 30:
+        if vel >= max_speed:
             vel += 0
         else:
             vel += 0.1
