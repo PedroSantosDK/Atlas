@@ -111,8 +111,3 @@ while isRunning:
     window.blit(ball, ball_rect)
     window.blit(base, base_rect)
     pygame.display.flip()
-
-"""
-background = https://opengameart.org/users/paur
-star = https://opengameart.org/users/galangpiliang
-"""
