@@ -7,7 +7,7 @@ main_directory = os.path.dirname(__file__)
 imagens_directory = os.path.join(main_directory, "imagens")
 
 class MyGameText:
-    def _init_(self):
+    def __init__(self):
         print("Inicializando biblioteca...")
         
     def create_text(self, msg, size, color, font=None):
