@@ -18,4 +18,4 @@ Sun and sky by: [bonecandy](https://opengameart.org/users/bonecandy)
 
 Rainbow Ball by: [bananaowl](https://opengameart.org/content/rainbow-ball)
 
-os restantes das imagens foram feitas por mim
+os restantes das imagens foram feitas por mim com o uso do site [Piskel](https://www.piskelapp.com/)
