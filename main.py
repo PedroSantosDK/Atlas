@@ -26,6 +26,7 @@ mgt = MyGameText()
 height, width = 600, 600
 isRunning = False
 inicial = True
+game_over = False
 
 # Game Variables
 fps = 60
@@ -37,6 +38,8 @@ miss = 0
 # Player Variables
 x = random.randint(25, 576)
 y = 50
+hp = 3
+container_size = 180
 
 max_speed = 30
 vel = 10
@@ -79,11 +82,14 @@ exit_button = pygame.image.load(os.path.join(imagens_directory, 'Exit_button.png
 exit_button = pygame.transform.scale(exit_button, (256//1.2, 112//1.2))
 exit_button_rect = exit_button.get_rect(center=(height//2, 500))
 
+life_img = pygame.image.load(os.path.join(imagens_directory, "Atlas_HP.png")).convert_alpha()
+life_img = pygame.transform.scale(life_img, (180,56))
+
 clock = pygame.time.Clock()
 
 hover = False
 
-while inicial:
+while inicial == True:
     clock.tick(fps2)
     pygame.event.set_grab(True)
     pygame.mouse.set_visible(False)
@@ -133,11 +139,12 @@ while inicial:
     window.blit(ball, (cursorX, cursorY))
     pygame.display.flip()
 
-while isRunning:
+while isRunning == True:
     pygame.event.set_grab(True)
     pygame.mouse.set_visible(False)
     clock.tick(fps)
     window.fill((255,255,255))
+    life_img_frame = life_img.subsurface(0,0,container_size,56).convert_alpha()
     os.system('cls')
     text_points = mgt.create_text(f"Points: {points}", 25, (0,0,0))
     text_speed = mgt.create_text(f"Speed: {round(vel)}", 25, (0,0,0))
@@ -146,12 +153,18 @@ while isRunning:
     ball_rect = ball.get_rect(center=(x, y))
     base_rect = base.get_rect(center=(baseX, baseY))
 
+    if hp == 0:
+        isRunning = False
+        game_over = True
+
     y += round(vel)
 
     if y >= width:
         x = random.randint(25, 576)
         y = 100
         miss += 1
+        hp -= 3
+        container_size -= 60
 
     if ball_rect.colliderect(base_rect):
         x = random.randint(25, 576)
@@ -180,9 +193,37 @@ while isRunning:
 
     window.blit(sky, (-100,0))
     window.blit(sun, (height-175,-65))
-    window.blit(text_points, (0,0))
-    window.blit(text_speed, (0,25))
-    window.blit(text_missed, (0,50))
+    window.blit(life_img_frame, (5,10))
+    window.blit(text_points, (0,75))
+    window.blit(text_speed, (0,100))
+    window.blit(text_missed, (0,125))
     window.blit(ball, ball_rect)
     window.blit(base, base_rect)
+    pygame.display.flip()
+        
+while game_over == True:
+    text_game_over = mgt.create_text(f"FIM DE JOGO", 75, (255,0,0))
+    max_points = mgt.create_text(f"Pontuação Maxima foi: {points}", 35, (255,0,0))
+    pygame.event.set_grab(True)
+    pygame.mouse.set_visible(False)
+    clock.tick(fps)
+    sky = sky.convert()
+    sky.set_alpha(50)
+    window.fill((0,0,0))
+    window.blit(sky, (-100,0))
+    
+    for event in pygame.event.get():
+        if event.type == QUIT:
+            isRunning = False
+            pygame.quit()
+            sys.exit()
+
+        if event.type == KEYDOWN:
+            if event.key == K_ESCAPE:
+                isRunning = False
+                pygame.quit()
+                sys.exit()
+
+    window.blit(text_game_over, (30, 150))
+    window.blit(max_points, (90, 250))
     pygame.display.flip()
