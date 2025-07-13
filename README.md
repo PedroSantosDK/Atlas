@@ -6,7 +6,7 @@ O objetivo do jogo é coletar o máximo possivel de estrelas, isso enquanto a ve
 
 espero que se divirta :)
 
-## Credits
+## Creditos
 
 Sky background by: [Paulina Riva](https://opengameart.org/users/paur)
 
