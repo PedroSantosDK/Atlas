@@ -163,7 +163,7 @@ while isRunning == True:
         x = random.randint(25, 576)
         y = 100
         miss += 1
-        hp -= 3
+        hp -= 1
         container_size -= 60
 
     if ball_rect.colliderect(base_rect):
