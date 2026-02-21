@@ -7,9 +7,6 @@ main_directory = os.path.dirname(__file__)
 imagens_directory = os.path.join(main_directory, "imagens")
 
 class MyGameText:
-    def __init__(self):
-        print("Inicializando biblioteca...")
-        
     def create_text(self, msg, size, color, font=None):
 
         if font == None:
@@ -30,7 +27,7 @@ game_over = False
 
 # Game Variables
 fps = 60
-fps2 = 20
+fps2 = 30
 
 points = 0
 miss = 0
@@ -50,6 +47,8 @@ baseY = 525
 
 cursorX = 100
 cursorY = 100
+
+Alpha = 255
 
 icon = pygame.image.load(os.path.join(imagens_directory, 'RainbowBall.png'))
 
@@ -173,7 +172,7 @@ while isRunning == True:
         if vel >= max_speed:
             vel += 0
         else:
-            vel += 0.1
+            vel += 0.2
     
     for event in pygame.event.get():
         if event.type == QUIT:
@@ -186,6 +185,9 @@ while isRunning == True:
                 isRunning = False
                 pygame.quit()
                 sys.exit()
+            
+            if event.key == K_k:
+                hp = 0
 
         if event.type == MOUSEMOTION:
             varX, varY = pygame.mouse.get_pos()
@@ -208,7 +210,14 @@ while game_over == True:
     pygame.mouse.set_visible(False)
     clock.tick(fps)
     sky = sky.convert()
-    sky.set_alpha(50)
+
+    if Alpha > 0:
+        sky.set_alpha(Alpha)
+        Alpha = int(Alpha - 0.1)
+    else:
+        Alpha = 0
+        sky.set_alpha(Alpha)
+
     window.fill((0,0,0))
     window.blit(sky, (-100,0))
     
